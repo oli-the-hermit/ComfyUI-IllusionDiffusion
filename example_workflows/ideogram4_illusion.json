@@ -1,0 +1,863 @@
+{
+ "last_node_id": 18,
+ "last_link_id": 17,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    0,
+    0
+   ],
+   "size": [
+    320,
+    112
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      3
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "models": [
+     {
+      "name": "ideogram4_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Ideogram-4/resolve/main/diffusion_models/ideogram4_fp8_scaled.safetensors",
+      "directory": "diffusion_models"
+     }
+    ]
+   },
+   "widgets_values": [
+    "ideogram4_fp8_scaled.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "UNETLoader",
+   "pos": [
+    0,
+    152
+   ],
+   "size": [
+    320,
+    112
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      8
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "models": [
+     {
+      "name": "ideogram4_unconditional_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Ideogram-4/resolve/main/diffusion_models/ideogram4_unconditional_fp8_scaled.safetensors",
+      "directory": "diffusion_models"
+     }
+    ]
+   },
+   "widgets_values": [
+    "ideogram4_unconditional_fp8_scaled.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "CLIPLoader",
+   "pos": [
+    0,
+    304
+   ],
+   "size": [
+    320,
+    138
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      1
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader",
+    "models": [
+     {
+      "name": "qwen3vl_8b_fp8_scaled.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/Qwen3-VL/resolve/main/text_encoders/qwen3vl_8b_fp8_scaled.safetensors",
+      "directory": "text_encoders"
+     }
+    ]
+   },
+   "widgets_values": [
+    "qwen3vl_8b_fp8_scaled.safetensors",
+    "ideogram4",
+    "default"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "VAELoader",
+   "pos": [
+    0,
+    482
+   ],
+   "size": [
+    320,
+    86
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      16
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader",
+    "models": [
+     {
+      "name": "flux2-vae.safetensors",
+      "url": "https://huggingface.co/Comfy-Org/flux2-dev/resolve/main/split_files/vae/flux2-vae.safetensors",
+      "directory": "vae"
+     }
+    ]
+   },
+   "widgets_values": [
+    "flux2-vae.safetensors"
+   ]
+  },
+  {
+   "id": 5,
+   "type": "CLIPTextEncode",
+   "pos": [
+    360,
+    0
+   ],
+   "size": [
+    320,
+    232
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      2,
+      7
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPTextEncode"
+   },
+   "widgets_values": [
+    "Photograph of a snowy alpine mountain range with pine forests, a frozen lake and a small wooden cabin, soft overcast daylight."
+   ]
+  },
+  {
+   "id": 6,
+   "type": "ConditioningZeroOut",
+   "pos": [
+    720,
+    0
+   ],
+   "size": [
+    320,
+    86
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "links": [
+      9
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ConditioningZeroOut"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 7,
+   "type": "EmptyFlux2LatentImage",
+   "pos": [
+    0,
+    608
+   ],
+   "size": [
+    320,
+    138
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      14
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptyFlux2LatentImage"
+   },
+   "widgets_values": [
+    1024,
+    1024,
+    1
+   ]
+  },
+  {
+   "id": 8,
+   "type": "LoadImage",
+   "pos": [
+    0,
+    786
+   ],
+   "size": [
+    320,
+    112
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      4
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage"
+   },
+   "widgets_values": [
+    "illusion_text.png",
+    "image"
+   ]
+  },
+  {
+   "id": 9,
+   "type": "IllusionGuidance",
+   "pos": [
+    360,
+    272
+   ],
+   "size": [
+    320,
+    294
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 3
+    },
+    {
+     "name": "pattern",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      5
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "IllusionGuidance"
+   },
+   "widgets_values": [
+    3.0,
+    0.02,
+    0.8,
+    false,
+    0.0,
+    0.75
+   ]
+  },
+  {
+   "id": 10,
+   "type": "CFGOverride",
+   "pos": [
+    720,
+    126
+   ],
+   "size": [
+    320,
+    164
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      6
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGOverride"
+   },
+   "widgets_values": [
+    3,
+    0.7,
+    1
+   ]
+  },
+  {
+   "id": 11,
+   "type": "DualModelGuider",
+   "pos": [
+    1080,
+    0
+   ],
+   "size": [
+    320,
+    190
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 6
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 7
+    },
+    {
+     "name": "model_negative",
+     "type": "MODEL",
+     "link": 8
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 9
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      11
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "DualModelGuider"
+   },
+   "widgets_values": [
+    7
+   ]
+  },
+  {
+   "id": 12,
+   "type": "Ideogram4Scheduler",
+   "pos": [
+    0,
+    938
+   ],
+   "size": [
+    320,
+    190
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SIGMAS",
+     "type": "SIGMAS",
+     "links": [
+      13
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "Ideogram4Scheduler"
+   },
+   "widgets_values": [
+    20,
+    1024,
+    1024,
+    0.0,
+    1.75
+   ]
+  },
+  {
+   "id": 13,
+   "type": "KSamplerSelect",
+   "pos": [
+    0,
+    1168
+   ],
+   "size": [
+    320,
+    86
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SAMPLER",
+     "type": "SAMPLER",
+     "links": [
+      12
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSamplerSelect"
+   },
+   "widgets_values": [
+    "euler"
+   ]
+  },
+  {
+   "id": 14,
+   "type": "RandomNoise",
+   "pos": [
+    0,
+    1294
+   ],
+   "size": [
+    320,
+    112
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      10
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    7,
+    "fixed"
+   ]
+  },
+  {
+   "id": 15,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    1440,
+    0
+   ],
+   "size": [
+    320,
+    190
+   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 10
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 11
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 12
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 13
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 14
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      15
+     ],
+     "slot_index": 0
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": [],
+     "slot_index": 1
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 16,
+   "type": "VAEDecode",
+   "pos": [
+    1800,
+    0
+   ],
+   "size": [
+    320,
+    112
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 15
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      17
+     ],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 17,
+   "type": "SaveImage",
+   "pos": [
+    2160,
+    0
+   ],
+   "size": [
+    320,
+    112
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "links": [],
+     "slot_index": 0
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SaveImage"
+   },
+   "widgets_values": [
+    "illusion/ideogram4_illusion"
+   ]
+  },
+  {
+   "id": 18,
+   "type": "Note",
+   "pos": [
+    0,
+    -260
+   ],
+   "size": [
+    700,
+    220
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "Illusion Guidance pulls the blurred brightness of the image toward the pattern while the composition forms, then fades out.\n\nIdeogram 4 needs more strength (about 3). Some seeds give Ideogram's own 'Image blocked by safety filter' picture even without the guidance; change the seed.\n\nSquint or step back to see the pattern."
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   3,
+   0,
+   5,
+   0,
+   "CLIP"
+  ],
+  [
+   2,
+   5,
+   0,
+   6,
+   0,
+   "CONDITIONING"
+  ],
+  [
+   3,
+   1,
+   0,
+   9,
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   8,
+   0,
+   9,
+   1,
+   "IMAGE"
+  ],
+  [
+   5,
+   9,
+   0,
+   10,
+   0,
+   "MODEL"
+  ],
+  [
+   6,
+   10,
+   0,
+   11,
+   0,
+   "MODEL"
+  ],
+  [
+   7,
+   5,
+   0,
+   11,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   8,
+   2,
+   0,
+   11,
+   2,
+   "MODEL"
+  ],
+  [
+   9,
+   6,
+   0,
+   11,
+   3,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   14,
+   0,
+   15,
+   0,
+   "NOISE"
+  ],
+  [
+   11,
+   11,
+   0,
+   15,
+   1,
+   "GUIDER"
+  ],
+  [
+   12,
+   13,
+   0,
+   15,
+   2,
+   "SAMPLER"
+  ],
+  [
+   13,
+   12,
+   0,
+   15,
+   3,
+   "SIGMAS"
+  ],
+  [
+   14,
+   7,
+   0,
+   15,
+   4,
+   "LATENT"
+  ],
+  [
+   15,
+   15,
+   0,
+   16,
+   0,
+   "LATENT"
+  ],
+  [
+   16,
+   4,
+   0,
+   16,
+   1,
+   "VAE"
+  ],
+  [
+   17,
+   16,
+   0,
+   17,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}

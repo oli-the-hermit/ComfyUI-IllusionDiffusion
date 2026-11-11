@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-illusion-diffusion"
+description = "Hidden-image optical illusions (spirals, text, QR codes) like QR Monster, for Qwen Image 2.1, Krea 2, Ideogram 4 and other models, without a ControlNet."
+version = "1.0.0"
+license = { file = "LICENSE" }
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/oli-the-hermit/ComfyUI-IllusionDiffusion"
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "Illusion Diffusion"
+Icon = ""
