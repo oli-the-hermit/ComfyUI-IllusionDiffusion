@@ -1,6 +1,6 @@
 {
- "last_node_id": 14,
- "last_link_id": 15,
+ "last_node_id": 12,
+ "last_link_id": 11,
  "nodes": [
   {
    "id": 1,
@@ -103,8 +103,7 @@
      "name": "VAE",
      "type": "VAE",
      "links": [
-      6,
-      14
+      10
      ],
      "slot_index": 0
     }
@@ -135,7 +134,7 @@
     336
    ],
    "flags": {},
-   "order": 6,
+   "order": 5,
    "mode": 0,
    "inputs": [
     {
@@ -159,7 +158,7 @@
      "name": "positive",
      "type": "CONDITIONING",
      "links": [
-      10
+      6
      ],
      "slot_index": 0
     },
@@ -167,7 +166,7 @@
      "name": "negative",
      "type": "CONDITIONING",
      "links": [
-      11
+      7
      ],
      "slot_index": 1
     },
@@ -182,7 +181,7 @@
     "Node name for S&R": "TextEncodeQwenImage21"
    },
    "widgets_values": [
-    "Aerial photograph of a medieval village with winding cobblestone streets, red tile rooftops, gardens and trees, warm golden hour light.",
+    "Aerial photograph of a rocky coastline with crashing waves, white foam, dark wet rocks and tide pools, overcast light.",
     "",
     1024
    ]
@@ -207,7 +206,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      12
+      8
      ],
      "slot_index": 0
     }
@@ -241,8 +240,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      3,
-      7
+      3
      ],
      "slot_index": 0
     },
@@ -257,7 +255,7 @@
     "Node name for S&R": "LoadImage"
    },
    "widgets_values": [
-    "illusion_spiral.png",
+    "illusion_knight.png",
     "image"
    ]
   },
@@ -270,10 +268,10 @@
    ],
    "size": [
     320,
-    294
+    320
    ],
    "flags": {},
-   "order": 7,
+   "order": 6,
    "mode": 0,
    "inputs": [
     {
@@ -306,123 +304,20 @@
     "Node name for S&R": "IllusionGuidance"
    },
    "widgets_values": [
-    1.5,
-    0.02,
-    0.8,
-    false,
-    0.0,
-    0.8
-   ]
-  },
-  {
-   "id": 8,
-   "type": "ModelPatchLoader",
-   "pos": [
-    0,
-    786
-   ],
-   "size": [
-    320,
-    86
-   ],
-   "flags": {},
-   "order": 5,
-   "mode": 0,
-   "inputs": [],
-   "outputs": [
-    {
-     "name": "MODEL_PATCH",
-     "type": "MODEL_PATCH",
-     "links": [
-      5
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ModelPatchLoader",
-    "models": [
-     {
-      "name": "Qwen-Image-2.1-Fun-Controlnet-Union.safetensors",
-      "url": "https://huggingface.co/alibaba-pai/Qwen-Image-2.1-Fun-Controlnet-Union/resolve/main/Qwen-Image-2.1-Fun-Controlnet-Union.safetensors",
-      "directory": "model_patches"
-     }
-    ]
-   },
-   "widgets_values": [
-    "Qwen-Image-2.1-Fun-Controlnet-Union.safetensors"
-   ]
-  },
-  {
-   "id": 9,
-   "type": "ZImageFunControlnet",
-   "pos": [
-    720,
-    0
-   ],
-   "size": [
-    320,
-    294
-   ],
-   "flags": {},
-   "order": 8,
-   "mode": 0,
-   "inputs": [
-    {
-     "name": "model",
-     "type": "MODEL",
-     "link": 4
-    },
-    {
-     "name": "model_patch",
-     "type": "MODEL_PATCH",
-     "link": 5
-    },
-    {
-     "name": "vae",
-     "type": "VAE",
-     "link": 6
-    },
-    {
-     "name": "image",
-     "type": "IMAGE",
-     "link": 7
-    },
-    {
-     "name": "inpaint_image",
-     "type": "IMAGE",
-     "link": null
-    },
-    {
-     "name": "mask",
-     "type": "MASK",
-     "link": null
-    }
-   ],
-   "outputs": [
-    {
-     "name": "MODEL",
-     "type": "MODEL",
-     "links": [
-      8
-     ],
-     "slot_index": 0
-    }
-   ],
-   "properties": {
-    "Node name for S&R": "ZImageFunControlnet"
-   },
-   "widgets_values": [
+    3.0,
     0.35,
-    0.0,
+    0.02,
+    false,
+    0.85,
+    0.6,
     0.5
    ]
   },
   {
-   "id": 10,
+   "id": 8,
    "type": "QwenImage21Cache",
    "pos": [
-    1080,
+    720,
     0
    ],
    "size": [
@@ -430,13 +325,13 @@
     138
    ],
    "flags": {},
-   "order": 9,
+   "order": 7,
    "mode": 0,
    "inputs": [
     {
      "name": "model",
      "type": "MODEL",
-     "link": 8
+     "link": 4
     }
    ],
    "outputs": [
@@ -444,7 +339,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      9
+      5
      ],
      "slot_index": 0
     }
@@ -458,10 +353,10 @@
    ]
   },
   {
-   "id": 11,
+   "id": 9,
    "type": "KSampler",
    "pos": [
-    1440,
+    1080,
     0
    ],
    "size": [
@@ -469,28 +364,28 @@
     346
    ],
    "flags": {},
-   "order": 10,
+   "order": 8,
    "mode": 0,
    "inputs": [
     {
      "name": "model",
      "type": "MODEL",
-     "link": 9
+     "link": 5
     },
     {
      "name": "positive",
      "type": "CONDITIONING",
-     "link": 10
+     "link": 6
     },
     {
      "name": "negative",
      "type": "CONDITIONING",
-     "link": 11
+     "link": 7
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 12
+     "link": 8
     }
    ],
    "outputs": [
@@ -498,7 +393,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      13
+      9
      ],
      "slot_index": 0
     }
@@ -507,7 +402,7 @@
     "Node name for S&R": "KSampler"
    },
    "widgets_values": [
-    7,
+    1,
     "fixed",
     25,
     1,
@@ -517,10 +412,10 @@
    ]
   },
   {
-   "id": 12,
+   "id": 10,
    "type": "VAEDecode",
    "pos": [
-    1800,
+    1440,
     0
    ],
    "size": [
@@ -528,18 +423,18 @@
     112
    ],
    "flags": {},
-   "order": 11,
+   "order": 9,
    "mode": 0,
    "inputs": [
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 13
+     "link": 9
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 14
+     "link": 10
     }
    ],
    "outputs": [
@@ -547,7 +442,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      15
+      11
      ],
      "slot_index": 0
     }
@@ -558,10 +453,10 @@
    "widgets_values": []
   },
   {
-   "id": 13,
+   "id": 11,
    "type": "SaveImage",
    "pos": [
-    2160,
+    1800,
     0
    ],
    "size": [
@@ -569,13 +464,13 @@
     112
    ],
    "flags": {},
-   "order": 12,
+   "order": 10,
    "mode": 0,
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 15
+     "link": 11
     }
    ],
    "outputs": [
@@ -594,7 +489,7 @@
    ]
   },
   {
-   "id": 14,
+   "id": 12,
    "type": "Note",
    "pos": [
     0,
@@ -605,13 +500,13 @@
     220
    ],
    "flags": {},
-   "order": 13,
+   "order": 11,
    "mode": 0,
    "inputs": [],
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "Illusion Guidance pulls the blurred brightness of the image toward the pattern while the composition forms, then fades out.\n\nThe Fun ControlNet (Qwen-Image-2.1-Fun-Controlnet-Union in models/model_patches, Qwen Research License: non-commercial) in Grayscale mode makes the scene follow the pattern more naturally. Bypass it to use the guidance alone with strength 2.0.\n\nSquint or step back to see the pattern."
+    "Illusion Guidance pulls the blurred brightness of the image toward the pattern while the composition forms, so the model builds the scene around it, then fades out by noise level 0.6.\n\nQwen Image 2.1: strength 3, contrast 0.35. noise_shaping 0.5 makes it build organic shapes from real content. Set noise_shaping to 0 for text, checkerboards and QR codes, where it makes Qwen draw a flat graphic.\n\nSquint or step back to see the pattern."
    ]
   }
  ],
@@ -644,7 +539,7 @@
    4,
    7,
    0,
-   9,
+   8,
    0,
    "MODEL"
   ],
@@ -653,86 +548,54 @@
    8,
    0,
    9,
-   1,
-   "MODEL_PATCH"
+   0,
+   "MODEL"
   ],
   [
    6,
-   3,
+   4,
    0,
    9,
-   2,
-   "VAE"
+   1,
+   "CONDITIONING"
   ],
   [
    7,
-   6,
-   0,
-   9,
-   3,
-   "IMAGE"
-  ],
-  [
-   8,
-   9,
-   0,
-   10,
-   0,
-   "MODEL"
-  ],
-  [
-   9,
-   10,
-   0,
-   11,
-   0,
-   "MODEL"
-  ],
-  [
-   10,
-   4,
-   0,
-   11,
-   1,
-   "CONDITIONING"
-  ],
-  [
-   11,
    4,
    1,
-   11,
+   9,
    2,
    "CONDITIONING"
   ],
   [
-   12,
+   8,
    5,
    0,
-   11,
+   9,
    3,
    "LATENT"
   ],
   [
-   13,
-   11,
+   9,
+   9,
    0,
-   12,
+   10,
    0,
    "LATENT"
   ],
   [
-   14,
+   10,
    3,
    0,
-   12,
+   10,
    1,
    "VAE"
   ],
   [
-   15,
-   12,
+   11,
+   10,
    0,
-   13,
+   11,
    0,
    "IMAGE"
   ]

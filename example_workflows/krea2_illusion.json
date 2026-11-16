@@ -279,7 +279,7 @@
    ],
    "size": [
     320,
-    294
+    320
    ],
    "flags": {},
    "order": 8,
@@ -315,12 +315,13 @@
     "Node name for S&R": "IllusionGuidance"
    },
    "widgets_values": [
-    2.0,
+    3.0,
+    0.5,
     0.02,
-    0.8,
     false,
-    0.0,
-    0.8
+    0.85,
+    0.6,
+    0.0
    ]
   },
   {
@@ -514,7 +515,7 @@
     "Node name for S&R": "RandomNoise"
    },
    "widgets_values": [
-    7,
+    1,
     "fixed"
    ]
   },
@@ -675,7 +676,7 @@
    "outputs": [],
    "properties": {},
    "widgets_values": [
-    "Illusion Guidance pulls the blurred brightness of the image toward the pattern while the composition forms, then fades out.\n\nStrength 2-2.5 for Krea 2. For QR codes use blur 0.006 and contrast 1.0.\n\nSquint or step back to see the pattern."
+    "Illusion Guidance pulls the blurred brightness of the image toward the pattern while the composition forms, so the model builds the scene around it, then fades out by noise level 0.6.\n\nKrea 2: strength 3, contrast 0.5, noise_shaping 0. For QR codes set blur to 0.006.\n\nPick a prompt with things that can carry light and dark at the pattern's scale: streets and roofs, snow and pines, foam and rocks.\n\nSquint or step back to see the pattern."
    ]
   }
  ],

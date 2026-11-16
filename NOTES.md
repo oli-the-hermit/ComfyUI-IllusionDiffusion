@@ -1,6 +1,6 @@
 # Lab notebook
 
-Experiments toward v2, on Krea 2 Turbo (8 steps) and Qwen Image 2.1 (25 steps), 1024 px. One entry per experiment: what was tested, the numbers, the verdict. Everything here ran in a dev copy of the node; nothing below is in `nodes_illusion.py` yet unless an entry says so.
+Experiments toward v2, on Krea 2 Turbo (8 steps) and Qwen Image 2.1 (25 steps), 1024 px. One entry per experiment: what was tested, the numbers, the verdict. Everything ran in a dev copy of the node. E11 to E16 led to version 2 of `nodes_illusion.py`.
 
 ## How results are scored
 A quick set (2 prompts × spiral, QR, knight silhouette × 2 seeds = 12 images per model), each compared with the same seed without guidance.
@@ -9,7 +9,7 @@ A quick set (2 prompts × spiral, QR, knight silhouette × 2 seeds = 12 images p
 - **Natural:** texture and colour kept inside the pattern's dark and bright areas, compared with the unguided image, minus clipped black or white pixels. Too much texture or colour counts against an image as much as too little.
 - **Score:** reveal × natural. A deliberately painted run scores 0.07; v1 scores 0.34 (Krea) and 0.28 (Qwen).
 
-The score is a filter, not a judge. It was fooled once (E7), so every kept change is also checked by eye.
+The score is a filter, not a judge. It was fooled once (E7), so every kept change is also checked by eye. From E11 on, naturalness compares whole-image texture and colour with the unguided image and counts flat black or white cells, because the earlier per-area version penalised any scene that was rebuilt around the pattern. Numbers before and after E11 are not comparable. Neither version can tell a scene built from the pattern apart from an overlay; that call is made by eye.
 
 ## E1. When does each model decide its layout?
 Logged the predicted image at every step of 8 unguided runs per model and compared each feature size with the final image.
@@ -85,12 +85,47 @@ Measured direction, contrast 0.4–0.5.
 - rho 0.35 with strength 1.0, contrast 0.4: reveal 0.86, natural 0.55, score 0.46. By eye the most natural Qwen result.
 - Krea with rho 0.6: collapse (score 0.10). No seed on Krea.
 
-## Current best recipes (quick set only, not yet confirmed on the full set)
-- **Krea 2:** measured direction, strength 1.5, contrast 0.5, v1 schedule.
-- **Qwen 2.1:** measured direction, strength 1.0–1.5, contrast 0.4–0.5, v1 schedule, optional seed at rho 0.35.
+## E11. Push only while the composition forms
+Measured direction, contrast 0.5, full strength down to noise 0.85, faded out by 0.7 or 0.6. No push in the window that E6 used.
+
+- Krea, strength 3, fade to 0.6: reveal 0.91, natural 0.62 on the quick set, QR scans 50%.
+- By eye: the scene is built from the pattern. Houses in spiral rows with roads between them, spiral rows of pines on snow, a plaza laid out as a QR code that scans. No overlay.
+- Qwen responds to the same schedule without any seed (houses along the arms, a rock in the knight's shape), more softly than Krea.
+
+Verdict: keep. This is the v2 schedule. It also corrects E2/E3: at v1's strength the early steps were not harmful, they were where structure came from. What collapses to a graphic is a much larger push there (E3 used 9 to 19 times the strength).
+
+## E12. Margin target (dropped)
+Push only where the image is on the wrong side of the wanted brightness. With the v1 schedule it gave an overlay like E6. With the early schedule it ran away to paint (natural 0.32), because nothing pulls back once an area overshoots.
+
+## E13. Full set: 6 prompts × 5 patterns × 2 seeds per model
+| | reveal | natural | QR scans |
+|---|---|---|---|
+| Krea v1 | 0.90 | 0.69 | 50% |
+| Krea v2 (strength 3, contrast 0.5) | 0.91 | 0.57 | 75% |
+| Qwen v1 | 0.94 | 0.69 | 33% |
+| Qwen v2, noise shaping 0.5 (contrast 0.35) | 0.89 | 0.73 | 8% |
+| Qwen v2, no noise shaping | 0.92 | 0.83 | 0% |
+
+By eye, Krea v2 wins wherever the prompt offers something to carry the pattern: "COMFY" spelled in pines on a snow slope, a knight-shaped rock island in sea foam, pine groves in checkerboard squares. With no carrier in the scene (a forest floor close-up, a market from above) v1 and v2 both give an overlay or a dark blob. Krea's lower naturalness number is the metric reading a rebuilt scene as a loss.
+
+Qwen without noise shaping is clean, soft shading on a normal scene. With noise shaping 0.5 it builds organic shapes from content (rows of houses, a knight-shaped lake in a town, lettering made of rocks in surf). With hard-edged geometric patterns the same setting tips it into a collage: photo tiles arranged as a checkerboard, a typographic banner for the text, a picture frame around the QR code.
+
+Verdict: v2 ships. Noise shaping stays as an input, off by default, recommended on Qwen for organic shapes only. Limiting it to coarse feature sizes or lowering it to 0.35 did not remove the collage failures.
+
+## E14. Grayscale ControlNet with the v2 schedule on Qwen
+Fun ControlNet Union at 0.35, no noise shaping, 6 images. More structure on the spiral, but a painterly look on snow and a picture frame on the QR code; score 0.70 against 0.80 without it. No longer recommended in the README.
+
+## E15. Does the node match the lab?
+Same settings and seeds through `nodes_illusion.py` and the lab code: mean pixel difference 1.2 (Qwen) and 2.6 (Krea) out of 255. The remainder is floating-point ordering amplified by sampling. Krea Turbo is very sensitive: changing `blur` from 0.02 to 0.0200001 moved the image by 12 to 18 out of 255.
+
+## E16. Regional prompts through ComfyUI's mask conditioning (no effect on Krea)
+Pattern as a mask, one extra prompt for white areas and one for black, combined with the global prompt. Alone it produced no visible pattern on Krea. Together with the guidance it looked like the guidance alone. Carriers will have to come from the prompt itself or from attention-level control.
+
+## Not tuned
+Ideogram 4 under v2: the pattern is weak at strength 3 and an overlay at strength 5, with either schedule. It worked with v1.0.0.
 
 ## Open
-- Confirm on the full set (6 prompts × 5 patterns × 2 seeds).
-- Recalibrate the measured direction on more images.
-- QR scans are down at these gentler settings (v1 scanned 50% on the quick set). QR needs its own stronger setting or the fine-detail work from the plan.
-- Combine early structure with window shading on Krea; band-wise timing; margin targets; samplers; regional prompts.
+- QR on Qwen at natural-looking settings.
+- Scenes with no natural carrier; prompt wording that supplies one.
+- Fine detail: per-size timing, a decoder check, samplers that add noise each step.
+- Hidden pictures in colour and the two-prompt hybrid guider.
